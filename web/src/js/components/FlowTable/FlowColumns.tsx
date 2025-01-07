@@ -12,6 +12,8 @@ import {
     statusCode,
     getMethod,
     getVersion,
+    getMetadata,
+    getProcessname
 } from "../../flow/utils";
 import { formatSize, formatTimeDelta, formatTimeStamp } from "../../utils";
 import * as flowActions from "../../ducks/flows";
@@ -89,6 +91,37 @@ export const version: FlowColumn = ({ flow }) => (
     <td className="col-http-version">{getVersion(flow)}</td>
 );
 version.headerName = "Version";
+
+export const metadata: FlowColumn = ({ flow }) => {
+    const metadata = getMetadata(flow)
+    return <td className="col-metadata">{metadata}</td>
+};
+metadata.headerName = "Metadata";
+metadata.invisible = true;
+
+export const processname: FlowColumn = ({ flow }) => {
+    const name_of_process = JSON.parse(getMetadata(flow))["name_of_process"]
+    return <td className="col-processname">{name_of_process}</td>
+};
+processname.headerName = "Process Name";
+
+export const typeofprocess: FlowColumn = ({ flow }) => {
+    const type_of_process = JSON.parse(getMetadata(flow))["type_of_process"]
+    return <td className="col-processtype">{type_of_process}</td>
+};
+typeofprocess.headerName = "Process Name";
+
+export const pid: FlowColumn = ({ flow }) => {
+    const pid = JSON.parse(getMetadata(flow))["pid"]
+    return <td className="col-http-pid">{pid}</td>
+}
+pid.headerName = "PID";
+
+export const processtype: FlowColumn = ({ flow }) => {
+    const processtype = JSON.parse(getMetadata(flow))["type_of_process"]
+    return <td className="col-processtype">{processtype}</td>
+};
+processtype.headerName = "Process Type";
 
 export const status: FlowColumn = ({ flow }) => {
     let color = "darkred";
@@ -208,5 +241,8 @@ const FlowColumns: { [key in keyof typeof sortFunctions]: FlowColumn } = {
     timestamp,
     tls,
     comment,
+    processname,
+    pid,
+    metadata,
 };
 export default FlowColumns;

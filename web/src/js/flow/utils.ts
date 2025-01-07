@@ -284,6 +284,15 @@ export const getVersion = (flow: Flow): string => {
     }
 };
 
+export const getMetadata = (flow: Flow): string =>{
+    return flow.metadata ? JSON.stringify(flow.metadata) : "No metadata";
+}
+
+export const getProcessname = (flow: Flow): string =>{
+    console.log("Prendiamo il nome del processo")
+    return flow.metadata ? flow.metadata["name_of_process"] : "";
+}
+
 export const sortFunctions = {
     tls: (flow: Flow) => flow.type === "http" && flow.request.scheme,
     icon: getIcon,
@@ -291,8 +300,14 @@ export const sortFunctions = {
     path: mainPath,
     method: getMethod,
     version: getVersion,
+    metadata: getMetadata,
+    processname: getProcessname,
     status: statusCode,
     size: getTotalSize,
+    pid: (flow: Flow)=>{
+        const pid_a = JSON.parse(getMetadata(flow))["pid"]
+        return parseInt(pid_a)
+    },
     time: (flow: Flow) => {
         const start = startTime(flow);
         const end = endTime(flow);

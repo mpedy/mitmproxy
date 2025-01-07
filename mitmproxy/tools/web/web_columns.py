@@ -12,4 +12,8 @@ AVAILABLE_WEB_COLUMNS = [
     "timestamp",
     "tls",
     "comment",
+    "processname",
+    "processtype",
+    "pid",
+    "metadata"
 ]

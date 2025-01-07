@@ -9,10 +9,12 @@ interface _Flow {
     modified: boolean;
     marked: string;
     comment: string;
+    processtree: string;
     timestamp_created: number;
     client_conn: Client;
     server_conn?: Server;
     error?: Error;
+    metadata?: string;
 }
 
 export type Flow = HTTPFlow | TCPFlow | UDPFlow | DNSFlow;

@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const gulp = require("gulp");
-const gulpEsbuild = require("gulp-esbuild");
+//const gulpEsbuild = require("gulp-esbuild");
+const {createGulpEsbuild} = require("gulp-esbuild");
+const gulpEsbuild = createGulpEsbuild({ pipe: true});
 const less = require("gulp-less");
 const livereload = require("gulp-livereload");
 const cleanCSS = require("gulp-clean-css");
@@ -46,6 +48,20 @@ function styles_app_dev() {
 }
 
 function esbuild(dev) {
+    stream = gulp.src("src/js/app.tsx").pipe(
+        gulpEsbuild({
+            outfile: "app.js",
+            sourcemap: true,
+            sourceRoot: "/",
+            minify: !dev,
+            keepNames: true,
+            bundle: true,
+        })
+    );
+    // Evento "error" in caso di errore
+    stream.on('error', function (err) {
+        console.error('Errore nel processamento di esbuild:', err);
+    });
     return gulp
         .src("src/js/app.tsx")
         .pipe(
